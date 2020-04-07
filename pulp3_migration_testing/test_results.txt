@@ -1,0 +1,36 @@
+Test that fully-utilizes the migration test setup script
+
+NOTE: To make Docker syncing work properly I needed to patch in this PR: https://github.com/pulp/nectar/pull/66/files
+
+Repos:
+	51 BusyBox (Docker)
+	51 Alpine (Docker)
+	51 Bash (Docker)
+	51 Large File (70000 synced units)
+	5 File with 10 uploaded files each
+
+Content views:
+	1 Large View with 100 versions:
+		90 versions with all Docker repos
+		5 versions with all repos
+		5 versions with only Large File
+	100 Little Views with 1 version each:
+		All Docker repos
+
+Results 1:
+	Pulp 3 migration time: real 196m53.940s (3 hours, 17 minutes)
+	Pulp 3 re-migration time: real 140m52.834s (2 hours, 21 minutes)
+	Pulp 3 content switchover time: real 185m46.343s (3 hours, 6 minutes)
+	This is quite slow.  To investigate further, run each step of Katello::Pulp3::MigrationSwitchover.run individually
+
+Results 2
+	Pulp 3 migration time: real    202m33.476s (3 hours, 23 minutes)
+	Pulp 3 re-migration time: real    144m13.380s (2 hours, 24 minutes)
+	Pulp 3 content switchover time:
+		check_already_migrated_content: < 1 minute
+		cleanup_v1_docker_tags:  < 1 minute
+		migrated_content_type_check: < 1 minute
+		combine_duplicate_docker_tags: ~ 7 minutes
+			Newer result with otherwise similar results: ~ 4 minutes
+		migrate_pulp3_hrefs: < 1 minute
+
