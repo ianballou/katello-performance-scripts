@@ -33,4 +33,9 @@ Results 2
 		combine_duplicate_docker_tags: ~ 7 minutes
 			Newer result with otherwise similar results: ~ 4 minutes
 		migrate_pulp3_hrefs: < 1 minute
+		
+Results 3
+	Largely the same except:
+		cleanup_v1_docker_tags:  ~2 minutes
+		combine_duplicate_docker_tags: ~3 minutes
 
