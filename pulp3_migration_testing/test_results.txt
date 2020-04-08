@@ -2,6 +2,8 @@ Test that fully-utilizes the migration test setup script
 
 NOTE: To make Docker syncing work properly I needed to patch in this PR: https://github.com/pulp/nectar/pull/66/files
 
+MAIN TEST
+
 Repos:
 	51 BusyBox (Docker)
 	51 Alpine (Docker)
@@ -38,4 +40,66 @@ Results 3
 	Largely the same except:
 		cleanup_v1_docker_tags:  ~2 minutes
 		combine_duplicate_docker_tags: ~3 minutes
+
+-------------------------------------------------------------------------------------
+
+SMALLER TESTS, SOME INCOMPLETE
+
+Test 1
+Resources
+CPUs: 8
+RAM: 32 GB
+Pulp 2 workers: 8
+Pulp 3 workers: 8
+Repos
+3 Docker
+BusyBox, Alpine, Bash
+6 file
+http://quartet.usersys.redhat.com/pub/fake-repos/large_file/
+5 upload-only with 10 empty files each
+Content view
+big_view
+91 versions with all the above Docker repos
+3 versions with all above repos
+Pulp 3 migration time: real    34 minutes
+Pulp 3 re-migration time: 23 minutes
+
+Test 2
+Ran after test 1 after the following items were added:
+File repo with 1 uploaded file that was deleted in Pulp 2
+File repo with 250 synced files that was deleted in Pulp 2
+Docker repo  that was deleted in Pulp 2 with:
+18 Container Image Manifests
+7 Container Image Manifest Lists
+8 Container Image Tags
+Pulp 3 migration time: 23 minutes
+
+Test 3
+Ran after test 2 after the following items were added
+100 content views with the following Docker repos:
+BusyBox
+Bash
+Alpine
+Pulp 3 migration time: 53 minutes
+
+Test 5
+Repos
+51 BusyBox (Docker)
+1 Previously migrated
+51 Alpine (Docker)
+1 Previously migrated
+51 Bash (Docker)
+1 Previously migrated
+1 File with 250 synced files (previously migrated)
+51 File with 70000 synced files
+1 Previously migrated
+5 File with 10 uploaded files (previously migrated)
+Content Views
+All content views from tests 1 and 2
+“large_view” with:
+90 versions of BusyBox, Alpine, and Bash
+1 version with BusyBox, Alpine, Bash, and one 70K file repo
+Results:
+Pulp 3 migration time: real    182m12.123s (3 hours, 2 mins)
+Pulp 3 re-migration time: real    143m12.161s (2 hours, 23 mins
 
