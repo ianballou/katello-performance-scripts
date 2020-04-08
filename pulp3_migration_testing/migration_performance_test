@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Run me with --setup to create the repos and content views
+
 # Testing orphans: create a repo, sync it, then delete the repo.  Task: delete_orphaned_content
 # Testing missing repos: Create a repo and then delete the Pulp 2 repo. Task: correct_repositories
 #    -> Try running migration without running task to see how it behaves.
@@ -91,13 +93,7 @@ if [ "$1" == "--setup" ]; then
 		hammer --username $username --password $password repository upload-content --path "migration_test_files/*" --name file_upload_repo$i --product test_product --organization-label Default_Organization
 	done
 
-	# TODO: Orphan some content
-
-	# TODO: Make some missing repos
-
 fi
 
 #time sudo foreman-rake katello:pulp3_migration
 #time sudo foreman-rake katello:pulp3_content_switchover
-
-echo "Testing Pulp3 migration of many file and docker repositories"
