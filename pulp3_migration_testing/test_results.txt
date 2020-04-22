@@ -40,6 +40,16 @@ Results 3
 	Largely the same except:
 		cleanup_v1_docker_tags:  ~2 minutes
 		combine_duplicate_docker_tags: ~3 minutes
+		
+Results 4
+	Same test, except:
+		Deleted alpine1, bash1, busybox1, large_file1 to make orphaned content
+	Pulp 3 migration time: ~2 hours, 44 minutes
+		~8898 seconds of time in "suspended state" included in this, not sure why
+	(ran delete_orphaned_content)
+	Pulp 3 content switchover time:
+		ERROR: at least one katello_docker_tags record has migrated_pulp3_href NULL value
+	
 
 -------------------------------------------------------------------------------------
 
