@@ -14,14 +14,15 @@ if [ "$1" == "--setup" ]; then
 
 	# Prepare additional repositories
 
-	for i in {51..100}
+	hammer --username $username --password $password repository create --product test_product --organization-label Default_Organization --name very_large_file_150k --content-type file --url  http://quartet.usersys.redhat.com/pub/fake-repos/very_large_file_150k/
+	hammer --username $username --password $password repository synchronize --name very_large_file_150k --organization-label Default_Organization --product test_product
+
+	for i in {51..71}
 	do 
 		hammer --username $username --password $password repository create --product test_product --organization-label Default_Organization --name large_file$i --content-type file --url  http://quartet.usersys.redhat.com/pub/fake-repos/large_file/
-		hammer --username $username --password $password repository create --product test_product --organization-label Default_Organization --name very_large_file_150k$i --content-type file --url  http://quartet.usersys.redhat.com/pub/fake-repos/very_large_file_150k/
 		hammer --username $username --password $password repository create --product test_product --organization-label Default_Organization --url https://registry-1.docker.io --docker-upstream-name library/busybox --content-type docker --name busybox$i
 		hammer --username $username --password $password repository synchronize --name busybox$i --organization-label Default_Organization --product test_product --async
 		hammer --username $username --password $password repository synchronize --name large_file$i --organization-label Default_Organization --product test_product
-		hammer --username $username --password $password repository synchronize --name very_large_file_150k$i --organization-label Default_Organization --product test_product
 	done
 
 	
@@ -31,40 +32,11 @@ if [ "$1" == "--setup" ]; then
 	hammer --username $username --password $password content-view add-repository --repository "busybox" --name large_view2 --organization-label Default_Organization
 
 	# Publish views with only docker repos
-	for i in {1..90}
+	for i in {1..10}
 	do
 		hammer --username $username --password $password content-view publish --name large_view2 --organization-label Default_Organization
 	done
 
-	hammer --username $username --password $password content-view add-repository --repository "large_file" --name large_view2 --organization-label Default_Organization
-	hammer --username $username --password $password content-view add-repository --repository "very_large_file_150k51" --name large_view2 --organization-label Default_Organization
-
-	# Publish views with file and docker repos
-	for i in {1..5}
-	do
-		hammer --username $username --password $password content-view publish --name large_view2 --organization-label Default_Organization
-	done
-
-	hammer --username $username --password $password content-view remove-repository --repository "busybox" --name large_view2 --organization-label Default_Organization
-
-	# Publish views with only file repos
-	for i in {1..5}
-	do
-		hammer --username $username --password $password content-view publish --name large_view2 --organization-label Default_Organization
-	done
-
-	# Create and publish many small content views
-
-	for i in {101..200}
-	do
-	   hammer --username $username --password $password content-view create --name little_view$i --organization-label Default_Organization
-	   hammer --username $username --password $password content-view add-repository --repository "busybox" --name little_view$i --organization-label Default_Organization
-    	done
-
-	for i in {101..200}
-	do
-		hammer --username $username --password $password content-view publish --name little_view$i --organization-label Default_Organization
-	done
 fi
 
 #time sudo foreman-rake katello:pulp3_migration

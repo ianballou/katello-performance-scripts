@@ -49,6 +49,7 @@ Results 4
 	(ran delete_orphaned_content)
 	Pulp 3 content switchover time:
 		ERROR: at least one katello_docker_tags record has migrated_pulp3_href NULL value
+			Only Docker tags have nil migrated_pulp3_href
 	
 
 -------------------------------------------------------------------------------------
