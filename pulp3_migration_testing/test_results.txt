@@ -50,8 +50,37 @@ Results 4
 	Pulp 3 content switchover time:
 		ERROR: at least one katello_docker_tags record has migrated_pulp3_href NULL value
 			Only Docker tags have nil migrated_pulp3_href
-	
 
+---------------------------------------------------------------------------------------------------
+
+TIER 2 TEST
+
+Repos:
+	72 BusyBox (Docker)
+	51 Alpine (Docker)
+	51 Bash (Docker)
+	72 Large File (70,000 synced units)
+	1 Very Large File (150,000 synced units)
+	5 File with 10 uploaded files each
+
+Content views:
+	1 Large View with 100 versions:
+		90 versions with all Docker repos
+		5 versions with all Docker repos plus Large File
+		5 versions with only Large File
+	Another view with 10 versions:
+		All Busybox only	
+	100 Little Views with 1 version each:
+		All Docker repos
+	
+Results 1 (python3-pulpcore-3.0.1-2, python3-pulp-2to3-migration-0.1.0-0.1.rc1)
+	Pulp 3 delete orphans time: about 15 hours (https://pulp.plan.io/issues/6581)
+	Pulp 3 migration time: real    298m35.417s (4 hours and 59 minutes)
+	Pulp 3 re-migration time: 3 hours 43 minutes 1 seconds
+	Pulp 3 content switchover time:  ERROR (due to old migration plugin version)
+	
+Results 2
+	
 -------------------------------------------------------------------------------------
 
 SMALLER TESTS, SOME INCOMPLETE
