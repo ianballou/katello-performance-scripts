@@ -82,7 +82,7 @@ Results 1 (python3-pulpcore-3.0.1-2, python3-pulp-2to3-migration-0.1.0-0.1.rc1)
 Results 2 (python3-pulpcore-3.2.1-1, python3-pulp-2to3-migration-0.2.0-0.1.b1
 	Pulp 3 migration time: real    275m32.512s (4 Hours, 35 Minutes)
 	Pulp 3 re-migration time: real    193m51.997s (3 Hours, 14 Minutes)
-	Pulp 3 content switchover time: 
+	Pulp 3 content switchover time: real    5m37.088s
 	
 -------------------------------------------------------------------------------------
 
